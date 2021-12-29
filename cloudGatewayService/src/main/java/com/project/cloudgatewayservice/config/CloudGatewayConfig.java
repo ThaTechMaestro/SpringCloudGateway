@@ -1,5 +1,7 @@
 package com.project.cloudgatewayservice.config;
 
+import com.project.cloudgatewayservice.test.UriConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +14,13 @@ import reactor.netty.http.client.HttpClient;
 
 
 @Configuration
+@EnableConfigurationProperties(UriConfiguration.class)
 public class CloudGatewayConfig {
 
 
     @Bean
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder){
+    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder, UriConfiguration uriConfiguration){
+        String httpUri = uriConfiguration.getHttpbin();
 
         return builder.routes()
                 .route(r -> r.path("/employee/**")
@@ -25,8 +29,15 @@ public class CloudGatewayConfig {
                 .route(r -> r.path("/consumer/**")
                         .uri("http://localhost:8083"))
 
-                .route(r -> r.path("/google/**")
+                .route(r -> r.path("/")
                         .uri("https://www.google.com"))
+
+                .route(r -> r
+                        .host("*.circuitbreaker.com")
+                        .filters(f -> f.circuitBreaker(config -> config
+                                .setName("mycmd")
+                                .setFallbackUri("forward:/fallback")))
+                        .uri(httpUri))
 
                 .build();
 
