@@ -1,23 +1,23 @@
-version: '3.8'
+version: '3.3'
 
 services:
   cloud_gateway_service:
-    image: abuyusuf/abuyusuf/cloud_gateway_service:v1.0
+    image: abuyusuf/cloud_gateway_service:v3.0
     container_name: cloud_gateway_service
     depends_on:
-      - first_ms
-      - second_ms
+      - firstms
+      - secondms
     ports:
       - 8081:8081
   
 
-  first_ms:
+  firstms:
     image: abuyusuf/display_service_one:v1.0
     container_name: display_service_one
     expose:
       - 8082
   
-  second_ms:
+  secondms:
     image: abuyusuf/display_service_two:v1.0
     container_name:  display_service_two
     expose:

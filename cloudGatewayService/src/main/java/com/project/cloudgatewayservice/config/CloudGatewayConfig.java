@@ -24,10 +24,10 @@ public class CloudGatewayConfig {
 
         return builder.routes()
                 .route(r -> r.path("/employee/**")
-                        .uri("first_ms:8082"))
+                        .uri("http://firstms:8082"))
 
                 .route(r -> r.path("/consumer/**")
-                        .uri("second_ms:8083"))
+                        .uri("http://secondms:8083"))
 
                 .route(r -> r.path("/")
                         .uri("https://www.google.com"))
