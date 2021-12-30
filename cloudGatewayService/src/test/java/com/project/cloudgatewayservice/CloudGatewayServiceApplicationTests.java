@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 @AutoConfigureWireMock(port = 0)
 class CloudGatewayServiceApplicationTests {
 
+    /**
 
     @Autowired
     private WebTestClient webClient;
@@ -47,6 +48,7 @@ class CloudGatewayServiceApplicationTests {
                         response -> assertThat(response.getResponseBody()).isEqualTo("fallback".getBytes()));
     }
 
+        **/
 
 
 
